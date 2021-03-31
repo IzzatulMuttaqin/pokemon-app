@@ -4,7 +4,12 @@ import Layout from '../../layout/Layout';
 import { gql, useQuery } from '@apollo/client';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/react';
-import { Dimmer, Loader, Image, Segment } from 'semantic-ui-react'
+import { Dimmer, Loader, Image, Segment } from 'semantic-ui-react';
+import { capitalizeFirstLetter } from '../../utils';
+import {
+  buttonLoadContainer, buttonLoadStyle, cardContainer,
+  spinnerContainer, container
+} from './Home.Styles';
 
 const GET_POKEMONS = gql`
   query pokemons($limit: Int, $offset: Int) {
@@ -22,10 +27,6 @@ const GET_POKEMONS = gql`
     }
   }
 `;
-
-function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
 
 const Home = () => {
   const [gqlVar, updateGqlVar] = useState({
@@ -45,21 +46,8 @@ const Home = () => {
 
   return (
     <Layout>
-      <div css={css`
-          width: 90%;
-          margin-left: 5%;
-          margin-right: 5%;
-          padding-top: min(25px, 5%);
-          padding-bottom: min(25px, 5%);
-        `}
-      >
-        <div css={css`
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(100px, 0fr));
-          grid-gap: .85rem;
-          justify-content: space-around;
-        `}
-        >
+      <div css={container}>
+        <div css={cardContainer}>
           {
             dataSaved.map((val, index) => (
               <>
@@ -70,16 +58,33 @@ const Home = () => {
                     transition: 0.3s;
                     border-radius: 10px;
                     width: 100px;
-                    cursor: pointer;
                     padding-bottom: 10px;
                 `}
                   key={index}
                 >
-                  <div class="image" style={{ height: '100px' }}>
+                  <div className="image" style={{ height: '100px' }}>
                     <img src={val.image} height={'100px'} />
                   </div>
                   <div style={{ textAlign: 'center', fontWeight: 'bold' }}>
                     {capitalizeFirstLetter(val.name)}
+                  </div>
+                  <div
+                    css={css`
+                      background-color: red;
+                      width: 70px;
+                      margin-top: 5px;
+                      font-weight: bold;
+                      padding: 2px 5px;
+                      border: none;
+                      margin-left: auto;
+                      margin-right: auto;
+                      text-align: center;
+                      cursor: pointer;
+                      border-radius: 10px;
+                      color: white;
+                    `}
+                  >
+                    RELEASE
                   </div>
                 </div>
               </>
@@ -88,8 +93,8 @@ const Home = () => {
         </div>
         {
           !!loading &&
-          <div>
-            <Segment style={{ border: 'none', boxShadow: '0 0 0 0 rgba(0,0,0,0)', marginTop: '5px', height: '75px' }}>
+          <div css={spinnerContainer}>
+            <Segment style={{ border: 'none', boxShadow: '0 0 0 0 rgba(0,0,0,0)' }}>
               <Dimmer active inverted>
                 <Loader inverted content='Loading' />
               </Dimmer>
@@ -97,7 +102,7 @@ const Home = () => {
           </div>
         }
         {!loading && !!data && !!data.pokemons.next && !!fetchMore &&
-          <div style={{ marginTop: '25px', marginBottom: '20px' }}>
+          <div css={buttonLoadContainer}>
             <div
               onClick={() => {
                 updateGqlVar({ ...gqlVar, offset: gqlVar.offset + 10 });
@@ -105,22 +110,15 @@ const Home = () => {
                   variables: gqlVar,
                 })
               }}
-              css={css`
-                  background-color: #ffcb05;
-                  width: max(10%, 100px);
-                  margin: auto;
-                  font-weight: bold;
-                  padding: 10px;
-                  border: none;
-                  margin-left: auto;
-                  margin-right: auto;
-                  text-align: center;
-                  cursor: pointer;
-                  border-radius: max(.5%, 5px)
-                `}
+              css={buttonLoadStyle}
             >
               Load More
             </div>
+          </div>
+        }
+        {!!error &&
+          <div>
+            Something when wrong. Please check again later.
           </div>
         }
       </div>

@@ -6,7 +6,7 @@ import { ApolloClient, ApolloProvider, InMemoryCache, HttpLink } from '@apollo/c
 import Home from '../views/home/Home'
 import Loading from '../components/Loading';
 import PokemonDetail from '../views/pokemon-detail/PokemonDetail';
-import PokemonListContext from '../context/PokemonListContext';
+import { PokemonProvider } from '../context/PokemonListContext';
 
 const AsyncDynamicPAge = importedComponent(
   () => import(/* webpackChunkName:'DynamicPage' */ '../views/dynamic-page/DynamicPage'),
@@ -34,18 +34,20 @@ const RouterApp = () => {
   const client = createApolloClient();
 
   return (
-    <ApolloProvider client={client}>
-      <Router>
-        <div>
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/dynamic" component={AsyncDynamicPAge} />
-            <Route path="/pokemon/" component={PokemonDetail} />
-            <Route component={AsyncNoMatch} />
-          </Switch>
-        </div>
-      </Router>
-    </ApolloProvider>
+    <PokemonProvider>
+      <ApolloProvider client={client}>
+        <Router>
+          <div>
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route exact path="/dynamic" component={AsyncDynamicPAge} />
+              <Route path="/pokemon/" component={PokemonDetail} />
+              <Route component={AsyncNoMatch} />
+            </Switch>
+          </div>
+        </Router>
+      </ApolloProvider>
+    </PokemonProvider>
   );
 };
 
