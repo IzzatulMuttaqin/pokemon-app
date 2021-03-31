@@ -18,6 +18,7 @@ import {
 import { capitalizeFirstLetter } from '../../utils';
 /** @jsx jsx */
 import { jsx } from '@emotion/react';
+import { Spinner } from '../../components';
 
 const GET_POKEMON_DETAIL = gql`
   query pokemon($name: String!) {
@@ -47,25 +48,6 @@ const GET_POKEMON_DETAIL = gql`
     }
   }
 `;
-
-// Normal Type: A8A77A
-// Fire Type:  EE8130
-// Water Type:  6390F0
-// Electric Type:  F7D02C
-// Grass Type:  7AC74C
-// Ice Type:  96D9D6
-// Fighting Type:  C22E28
-// Poison Type:  A33EA1
-// Ground Type:  E2BF65
-// Flying Type:  A98FF3
-// Psychic Type:  F95587
-// Bug Type:  A6B91A
-// Rock Type:  B6A136
-// Ghost Type:  735797
-// Dragon Type:  6F35FC
-// Dark Type:  705746
-// Steel Type:  B7B7CE
-// Fairy Type:  D685AD
 
 const PokemonDetail = React.memo(() => {
   const history = useHistory();
@@ -225,6 +207,18 @@ const PokemonDetail = React.memo(() => {
             ))}
           </div>
           <div css={divFiller} />
+        </div>
+      }
+
+      {!!loading &&
+        <div>
+          <Spinner />
+        </div>
+      }
+
+      {!!error &&
+        <div>
+          Something when wrong. Please check again later.
         </div>
       }
 

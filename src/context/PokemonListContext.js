@@ -5,7 +5,7 @@ const PokemonContext = React.createContext();
 
 let reducer = (info, newInfo) => {
     if (newInfo.type === 'remove') {
-        const newData = info.filter(p => p.nickname !== newInfo.data[0].nickname);
+        const newData = info.filter(p => p.nickname !== newInfo.data.nickname);
         return newData;
     }
     return [...info, newInfo.data];

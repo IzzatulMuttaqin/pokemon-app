@@ -36,7 +36,7 @@ const Layout = ({ children }) => {
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="mr-auto" />
           <Nav>
-            <Nav.Link>My Pokemon List</Nav.Link>
+            <Nav.Link onClick={() => history.push('/my-pokemon')}>My Pokemon List</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

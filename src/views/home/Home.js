@@ -4,12 +4,12 @@ import Layout from '../../layout/Layout';
 import { gql, useQuery } from '@apollo/client';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/react';
-import { Dimmer, Loader, Image, Segment } from 'semantic-ui-react';
 import { capitalizeFirstLetter } from '../../utils';
 import {
   buttonLoadContainer, buttonLoadStyle, cardContainer,
   spinnerContainer, container
 } from './Home.Styles';
+import { PokemonCard, Spinner } from '../../components';
 
 const GET_POKEMONS = gql`
   query pokemons($limit: Int, $offset: Int) {
@@ -50,55 +50,20 @@ const Home = () => {
         <div css={cardContainer}>
           {
             dataSaved.map((val, index) => (
-              <>
-                <div
-                  onClick={() => history.push(`/pokemon/${val.name}`)}
-                  css={css`
-                    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.2);
-                    transition: 0.3s;
-                    border-radius: 10px;
-                    width: 100px;
-                    padding-bottom: 10px;
-                `}
-                  key={index}
-                >
-                  <div className="image" style={{ height: '100px' }}>
-                    <img src={val.image} height={'100px'} />
-                  </div>
-                  <div style={{ textAlign: 'center', fontWeight: 'bold' }}>
-                    {capitalizeFirstLetter(val.name)}
-                  </div>
-                  <div
-                    css={css`
-                      background-color: red;
-                      width: 70px;
-                      margin-top: 5px;
-                      font-weight: bold;
-                      padding: 2px 5px;
-                      border: none;
-                      margin-left: auto;
-                      margin-right: auto;
-                      text-align: center;
-                      cursor: pointer;
-                      border-radius: 10px;
-                      color: white;
-                    `}
-                  >
-                    RELEASE
-                  </div>
-                </div>
-              </>
+              <div key={`${index}-${val.name}`}>
+                <PokemonCard
+                  pushDetail={() => history.push(`/pokemon/${val.name}`)}
+                  imageUrl={val.image}
+                  name={capitalizeFirstLetter(val.name)}
+                />
+              </div>
             ))
           }
         </div>
         {
           !!loading &&
           <div css={spinnerContainer}>
-            <Segment style={{ border: 'none', boxShadow: '0 0 0 0 rgba(0,0,0,0)' }}>
-              <Dimmer active inverted>
-                <Loader inverted content='Loading' />
-              </Dimmer>
-            </Segment>
+            <Spinner />
           </div>
         }
         {!loading && !!data && !!data.pokemons.next && !!fetchMore &&

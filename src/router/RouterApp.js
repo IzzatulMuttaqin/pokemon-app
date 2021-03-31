@@ -6,6 +6,7 @@ import { ApolloClient, ApolloProvider, InMemoryCache, HttpLink } from '@apollo/c
 import Home from '../views/home/Home'
 import Loading from '../components/Loading';
 import PokemonDetail from '../views/pokemon-detail/PokemonDetail';
+import MyPokemon from '../views/my-pokemon/MyPokemon';
 import { PokemonProvider } from '../context/PokemonListContext';
 
 const AsyncDynamicPAge = importedComponent(
@@ -42,6 +43,7 @@ const RouterApp = () => {
               <Route exact path="/" component={Home} />
               <Route exact path="/dynamic" component={AsyncDynamicPAge} />
               <Route path="/pokemon/" component={PokemonDetail} />
+              <Route exact path="/my-pokemon" component={MyPokemon} />
               <Route component={AsyncNoMatch} />
             </Switch>
           </div>
