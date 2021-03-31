@@ -120,107 +120,111 @@ const PokemonDetail = React.memo(() => {
     }
   }
 
+  if (!!data && !data.pokemon.id) history.replace('/not-found');
+
   return (
     <Layout>
-      {!!data && !!data.pokemon.id &&
-        <div css={container}>
-          {
-            alert &&
-            <div css={alertWarning}>
-              <Alert css={alertBody} variant="danger" onClose={() => setAlert(false)} dismissible>
-                <Alert.Heading>Oh snap!</Alert.Heading>
-                <p>
-                  {capitalizeFirstLetter(data.pokemon.name)} got away.
+      <div css={container}>
+        {!!data && !!data.pokemon.id &&
+          <>
+            {
+              alert &&
+              <div css={alertWarning}>
+                <Alert css={alertBody} variant="danger" onClose={() => setAlert(false)} dismissible>
+                  <Alert.Heading>Oh snap!</Alert.Heading>
+                  <p>
+                    {capitalizeFirstLetter(data.pokemon.name)} got away.
                   Better luck next time!
                 </p>
-              </Alert>
-            </div>
-          }
+                </Alert>
+              </div>
+            }
 
-          <div css={buttonsOnTopContainer}>
-            <Icon name='arrow alternate circle left outline' size='big' css={cursorPointer} onClick={() => history.goBack()} />
-            {!location.state?.mine &&
-              <div css={buttonCatchStyle} onClick={generateProbility}>
-                <img
-                  alt="image"
-                  src="/pokeball.png"
-                  width="20"
-                  height="20"
-                  style={{ marginBottom: '2%' }}
-                />{' '}
+            <div css={buttonsOnTopContainer}>
+              <Icon name='arrow alternate circle left outline' size='big' css={cursorPointer} onClick={() => history.goBack()} />
+              {!location.state?.mine &&
+                <div css={buttonCatchStyle} onClick={generateProbility}>
+                  <img
+                    alt="image"
+                    src="/pokeball.png"
+                    width="20"
+                    height="20"
+                    style={{ marginBottom: '2%' }}
+                  />{' '}
               Catch
             </div>
-            }
+              }
+            </div>
+
+            <Divider />
+
+            <div css={pictContainer}>
+              <div css={pictBg}>
+                <img src={data.pokemon.sprites.front_default} css={pictStyle} />
+              </div>
+
+              <div css={pokemonName}>
+                {capitalizeFirstLetter(location.state?.nickname || data.pokemon.name || "")}
+              </div>
+
+              <div css={skillsContainer}>
+                {(data.pokemon.types || []).map((val, index) => (
+                  <div key={`${index}-types`}
+                    css={typeStyles}
+                  >
+                    {capitalizeFirstLetter(val.type.name.split('-').join(' '))}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <Divider />
+
+            <div css={titleStyles}>
+              Abilities List:
           </div>
 
-          <Divider />
-
-          <div css={pictContainer}>
-            <div css={pictBg}>
-              <img src={data.pokemon.sprites.front_default} css={pictStyle} />
-            </div>
-
-            <div css={pokemonName}>
-              {capitalizeFirstLetter(location.state?.nickname || data.pokemon.name || "")}
-            </div>
-
             <div css={skillsContainer}>
-              {(data.pokemon.types || []).map((val, index) => (
-                <div key={`${index}-types`}
-                  css={typeStyles}
+              {(data.pokemon.abilities || []).map((val, index) => (
+                <div key={`${index}-abilities`}
+                  css={skillAbilities}
                 >
-                  {capitalizeFirstLetter(val.type.name.split('-').join(' '))}
+                  {capitalizeFirstLetter(val.ability.name.split('-').join(' '))}
                 </div>
               ))}
             </div>
+
+            <div css={divFiller} />
+
+            <div css={titleStyles}>
+              Skill List:
           </div>
 
-          <Divider />
+            <div css={skillsContainer}>
+              {(data.pokemon.moves || []).map((val, index) => (
+                <div key={`${index}-moves`}
+                  css={skillAbilities}
+                >
+                  {capitalizeFirstLetter(val.move.name.split('-').join(' '))}
+                </div>
+              ))}
+            </div>
+            <div css={divFiller} />
+          </>
+        }
 
-          <div css={titleStyles}>
-            Abilities List:
+        {!!loading &&
+          <div>
+            <Spinner />
           </div>
+        }
 
-          <div css={skillsContainer}>
-            {(data.pokemon.abilities || []).map((val, index) => (
-              <div key={`${index}-abilities`}
-                css={skillAbilities}
-              >
-                {capitalizeFirstLetter(val.ability.name.split('-').join(' '))}
-              </div>
-            ))}
-          </div>
-
-          <div css={divFiller} />
-
-          <div css={titleStyles}>
-            Skill List:
-          </div>
-
-          <div css={skillsContainer}>
-            {(data.pokemon.moves || []).map((val, index) => (
-              <div key={`${index}-moves`}
-                css={skillAbilities}
-              >
-                {capitalizeFirstLetter(val.move.name.split('-').join(' '))}
-              </div>
-            ))}
-          </div>
-          <div css={divFiller} />
+        {!!error &&
+          <div>
+            Something when wrong. Please check again later.
         </div>
-      }
-
-      {!!loading &&
-        <div>
-          <Spinner />
-        </div>
-      }
-
-      {!!error &&
-        <div>
-          Something when wrong. Please check again later.
-        </div>
-      }
+        }
+      </div>
 
       <Modal
         show={show}

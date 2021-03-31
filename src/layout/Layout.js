@@ -1,15 +1,9 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/react';
 import { useHistory } from "react-router-dom";
-import { Link } from 'react-router-dom';
-import { Container } from 'react-bootstrap';
-
-import { pullRight, h1 } from './layout.css';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
-import NavDropdown from 'react-bootstrap/NavDropdown';
-import useLocalStorage from '../utils/UseLocalStorage';
 import { PokemonContext } from '../context/PokemonListContext';
 
 const Layout = ({ children }) => {

@@ -2,6 +2,8 @@ import { css } from '@emotion/react';
 
 export const container = css`
     padding-top: min(25px, 5%);
+    margin-left: 5%;
+    margin-right: 5%;
 `;
 
 export const skillAbilities = css`
@@ -49,9 +51,7 @@ export const alertWarning = css`
     z-index:9999; 
     border-radius:0px;
     justify-content: center;
-    width: 90%;
-    margin-left: 5%;
-    margin-right: 5%;            
+    width: 90%;           
 `;
 
 export const alertBody = css`
@@ -64,8 +64,6 @@ export const divFiller = css`
 `;
 
 export const buttonsOnTopContainer = css`
-    margin-left: 5%; 
-    margin-right: 5%;
     justify-content: space-evenly;
 `;
 
@@ -84,7 +82,7 @@ export const buttonCatchStyle = css`
 
 export const skillsContainer = css`
     margin-top: 10px; display: flex; flex-wrap: wrap; 
-    grid-gap: .9rem; width: 90%; margin-left: 5%;
+    grid-gap: .9rem; width: 100%; 
     justify-content: center;
 `;
 
