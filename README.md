@@ -1,5 +1,28 @@
-# Project initiation based on React with Webpack
+# Simple pokemon application
 
-[How to use Webpack with React: an in-depth tutorial](https://www.freecodecamp.org/news/learn-webpack-for-react-a36d4cac5060/)
+## Usage
+There were some dependencies problems using npm. 
+So please install yarn before trying this project
 
-<div>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+Install dependencies
+
+```
+$ yarn
+```
+
+Run development server
+
+```
+$ yarn dev
+```
+
+Build production server
+
+```
+$ yarn build
+```
+
+## Credits
+
+- [How to use Webpack with React: an in-depth tutorial](https://www.freecodecamp.org/news/learn-webpack-for-react-a36d4cac5060/)
+- [UI/UX Pokemon web app](https://pokemon-web-app.web.app/)
