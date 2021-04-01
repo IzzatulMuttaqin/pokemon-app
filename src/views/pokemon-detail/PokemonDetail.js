@@ -265,7 +265,14 @@ const PokemonDetail = React.memo(() => {
         centered
       >
         <Modal.Body>
-          <Form noValidate onSubmit={onSubmit}>
+          <Form noValidate
+            onKeyPress={(event) => {
+              if (event.key.toLowerCase() === 'enter') {
+                event.preventDefault();
+                onSubmit();
+              }
+            }}
+          >
             <Form.Label>
               Please enter a nickname for your {data?.pokemon?.name || ''}
             </Form.Label>
