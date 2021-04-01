@@ -133,9 +133,9 @@ const PokemonDetail = React.memo(() => {
   return (
     <Layout>
       <div css={[container, {
-        width: `${viewingWidth}px`,
-        marginLeft: `${marginLeft}px`,
-        marginRight: `${marginLeft}px`,
+        width: `${width < 300 ? viewingWidth : '90%'}`,
+        marginLeft: `${width < 300 ? marginLeft : '5%'}`,
+        marginRight: `${width < 300 ? marginLeft : '5%'}`,
       }]}>
         {!!data && !!data.pokemon.id &&
           <>
@@ -264,11 +264,8 @@ const PokemonDetail = React.memo(() => {
         keyboard={false}
         centered
       >
-        {/* <Modal.Header closeButton>
-          Please enter a nickname for your {data?.pokemon?.name || ''}
-        </Modal.Header> */}
         <Modal.Body>
-          <Form noValidate>
+          <Form noValidate onSubmit={onSubmit}>
             <Form.Label>
               Please enter a nickname for your {data?.pokemon?.name || ''}
             </Form.Label>
@@ -288,12 +285,6 @@ const PokemonDetail = React.memo(() => {
             <Button variant="success" onClick={onSubmit}>Confirm</Button>
           </div>
         </Modal.Body>
-        {/* <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="success" onClick={onSubmit}>Confirm</Button>
-        </Modal.Footer> */}
       </Modal>
 
     </Layout>
