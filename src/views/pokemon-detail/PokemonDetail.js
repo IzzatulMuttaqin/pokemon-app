@@ -159,7 +159,7 @@ const PokemonDetail = React.memo(() => {
                   onClose={() => setAlertSuccess(false)} dismissible>
                   <Alert.Heading>Yippe!</Alert.Heading>
                   <p>
-                    {capitalizeFirstLetter(nickname)}, a {capitalizeFirstLetter(data.pokemon.name)}
+                    {capitalizeFirstLetter(nickname)}, a {`${capitalizeFirstLetter(data.pokemon.name)} `}
                     is stored at your computer.
                 </p>
                 </Alert>
