@@ -133,9 +133,9 @@ const PokemonDetail = React.memo(() => {
   return (
     <Layout>
       <div css={[container, {
-        width: `${width < 300 ? viewingWidth : '90%'}`,
-        marginLeft: `${width < 300 ? marginLeft : '5%'}`,
-        marginRight: `${width < 300 ? marginLeft : '5%'}`,
+        width: `${width < 300 ? `${viewingWidth}px` : '90%'}`,
+        marginLeft: `${width < 300 ? `${marginLeft}px` : '5%'}`,
+        marginRight: `${width < 300 ? `${marginLeft}px` : '5%'}`,
       }]}>
         {!!data && !!data.pokemon.id &&
           <>
