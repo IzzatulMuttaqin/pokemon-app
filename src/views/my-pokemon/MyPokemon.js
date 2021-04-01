@@ -3,14 +3,16 @@ import { useHistory } from "react-router-dom";
 import Layout from '../../layout/Layout';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/react';
-import { capitalizeFirstLetter } from '../../utils';
+import { capitalizeFirstLetter, useWindowDimensions } from '../../utils';
 import { cardContainer, container } from '../home/Home.Styles';
 import { PokemonCard } from '../../components';
 import { PokemonContext } from '../../context/PokemonListContext';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import { divFiller } from '../pokemon-detail/PokemonDetail.Styles';
 
 const MyPokemon = () => {
+    const { width } = useWindowDimensions();
     const { poke, setPoke } = useContext(PokemonContext);
     const [show, setShow] = useState(false);
     const [detailDelete, setDetailDelete] = useState(undefined);
@@ -22,9 +24,21 @@ const MyPokemon = () => {
         setShow(false);
     }
 
+    const viewingWidth = Math.round(width * 0.9);
+    const marginLeft = Math.round(width * 0.05);
+
+    console.log(
+        'width: ', width, 'containerWidth: ',
+        viewingWidth, 'marginWidth: ', marginLeft);
+
     return (
         <Layout>
-            <div css={container}>
+            <div css={[container,
+                {
+                    width: `${viewingWidth}px`,
+                    marginLeft: `${marginLeft}px`,
+                    marginRight: `${marginLeft}px`,
+                }]}>
                 <div css={cardContainer}>
                     {
                         poke.map((val, index) => (
@@ -61,13 +75,20 @@ const MyPokemon = () => {
                             , a
                             <span style={{ fontWeight: 'bold' }}>{` ${capitalizeFirstLetter(detailDelete?.name || '')}`}</span>?
                         </span>
+                        <div css={divFiller} />
+                        <div className="float-right">
+                            <Button variant="success" onClick={handleClose}>
+                                No
+                            </Button>{' '}
+                            <Button variant="danger" onClick={onSubmit}>Yes</Button>
+                        </div>
                     </Modal.Body>
-                    <Modal.Footer>
+                    {/* <Modal.Footer>
                         <Button variant="success" onClick={handleClose}>
                             No
                         </Button>
                         <Button variant="danger" onClick={onSubmit}>Yes</Button>
-                    </Modal.Footer>
+                    </Modal.Footer> */}
                 </Modal>
             </div>
         </Layout>

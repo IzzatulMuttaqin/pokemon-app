@@ -15,7 +15,7 @@ import {
   skillAbilities, titleStyles, typeStyles, cursorPointer, buttonCatchStyle,
   skillsContainer, pictContainer, pictBg, pictStyle
 } from './PokemonDetail.Styles';
-import { capitalizeFirstLetter } from '../../utils';
+import { capitalizeFirstLetter, useWindowDimensions } from '../../utils';
 /** @jsx jsx */
 import { jsx } from '@emotion/react';
 import { Spinner } from '../../components';
@@ -51,6 +51,7 @@ const GET_POKEMON_DETAIL = gql`
 
 const PokemonDetail = React.memo(() => {
   const history = useHistory();
+  const { width } = useWindowDimensions();
   const location = useLocation();
   const [show, setShow] = useState(false);
   const [alert, setAlert] = useState(false);
@@ -121,15 +122,28 @@ const PokemonDetail = React.memo(() => {
     }
   }
 
+  const viewingWidth = Math.round(width * 0.9);
+  const marginLeft = Math.round(width * 0.05);
+  const alertBodyWidth = width < 400 ? viewingWidth : Math.round(width * 0.5);
+
+  console.log(
+    'width: ', width, 'containerWidth: ',
+    viewingWidth, 'marginWidth: ', marginLeft);
+
   return (
     <Layout>
-      <div css={container}>
+      <div css={[container, {
+        width: `${viewingWidth}px`,
+        marginLeft: `${marginLeft}px`,
+        marginRight: `${marginLeft}px`,
+      }]}>
         {!!data && !!data.pokemon.id &&
           <>
             {
               alert &&
-              <div css={alertWarning}>
-                <Alert css={alertBody} variant="danger" onClose={() => setAlert(false)} dismissible>
+              <div css={[alertWarning, { width: `${viewingWidth}px` }]}>
+                <Alert css={[alertBody, { width: `${alertBodyWidth}px` }]} variant="danger"
+                  onClose={() => setAlert(false)} dismissible>
                   <Alert.Heading>Oh snap!</Alert.Heading>
                   <p>
                     {capitalizeFirstLetter(data.pokemon.name)} got away.
@@ -140,8 +154,9 @@ const PokemonDetail = React.memo(() => {
             }
 
             {alertSuccess &&
-              <div css={alertWarning}>
-                <Alert css={alertBody} variant="success" onClose={() => setAlertSuccess(false)} dismissible>
+              <div css={[alertWarning, { width: `${viewingWidth}px` }]}>
+                <Alert css={[alertBody, { width: `${alertBodyWidth}px` }]} variant="success"
+                  onClose={() => setAlertSuccess(false)} dismissible>
                   <Alert.Heading>Yippe!</Alert.Heading>
                   <p>
                     {capitalizeFirstLetter(nickname)}, a {capitalizeFirstLetter(data.pokemon.name)}

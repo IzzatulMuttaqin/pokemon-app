@@ -1,3 +1,4 @@
 import { capitalizeFirstLetter } from './GeneralUtil';
+import useWindowDimensions from './WindowDimension';
 
-export { capitalizeFirstLetter };
+export { capitalizeFirstLetter, useWindowDimensions };

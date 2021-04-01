@@ -4,7 +4,7 @@ import Layout from '../../layout/Layout';
 import { gql, useQuery } from '@apollo/client';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/react';
-import { capitalizeFirstLetter } from '../../utils';
+import { capitalizeFirstLetter, useWindowDimensions } from '../../utils';
 import {
   buttonLoadContainer, buttonLoadStyle, cardContainer,
   spinnerContainer, container
@@ -29,8 +29,9 @@ const GET_POKEMONS = gql`
 `;
 
 const Home = () => {
+  const { width } = useWindowDimensions();
   const [gqlVar, updateGqlVar] = useState({
-    limit: 10,
+    limit: 12,
     offset: 0,
   });
   const [dataSaved, updateDataSaved] = useState([]);
@@ -42,11 +43,23 @@ const Home = () => {
 
   useEffect(() => {
     if (!!data) updateDataSaved([...dataSaved, ...data.pokemons.results]);
-  }, [data])
+  }, [data, width])
+
+  const viewingWidth = Math.round(width * 0.9);
+  const marginLeft = Math.round(width * 0.05);
+
+  console.log(
+    'width: ', width, 'containerWidth: ',
+    viewingWidth, 'marginWidth: ', marginLeft);
 
   return (
     <Layout>
-      <div css={container}>
+      <div css={[container,
+        {
+          width: `${viewingWidth}px`,
+          marginLeft: `${marginLeft}px`,
+          marginRight: `${marginLeft}px`,
+        }]}>
         <div css={cardContainer}>
           {
             dataSaved.map((val, index) => (
@@ -70,7 +83,7 @@ const Home = () => {
           <div css={buttonLoadContainer}>
             <div
               onClick={() => {
-                updateGqlVar({ ...gqlVar, offset: gqlVar.offset + 10 });
+                updateGqlVar({ ...gqlVar, offset: gqlVar.offset + 12 });
                 fetchMore({
                   variables: gqlVar,
                 })

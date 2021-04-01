@@ -1,16 +1,13 @@
 import { css } from '@emotion/react';
 
-export const container = css`
-    width: 90%;
-    margin-left: 5%;
-    margin-right: 5%;
+export const container = `
     padding-top: min(25px, 5%);
     padding-bottom: min(25px, 5%);
 `;
 
 export const cardContainer = css`
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(100px, 0fr));
+    grid-template-columns: repeat(auto-fill, 100px);
     grid-gap: .85rem;
     justify-content: space-around;
 `;

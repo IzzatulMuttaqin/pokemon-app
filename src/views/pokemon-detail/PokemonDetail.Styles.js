@@ -2,8 +2,6 @@ import { css } from '@emotion/react';
 
 export const container = css`
     padding-top: min(25px, 5%);
-    margin-left: 5%;
-    margin-right: 5%;
 `;
 
 export const skillAbilities = css`
@@ -51,11 +49,9 @@ export const alertWarning = css`
     z-index:9999; 
     border-radius:0px;
     justify-content: center;
-    width: 90%;           
 `;
 
 export const alertBody = css`
-    width: max(300px, 50%);
     margin: auto;
 `;
 
