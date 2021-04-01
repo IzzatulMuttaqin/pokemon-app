@@ -65,7 +65,7 @@ const PokemonDetail = React.memo(() => {
     variables: { name: location.pathname.split('/')[2] },
   });
 
-  const handleClose = () => { setShow(false); setNickname(''); setValidMsg(''); setValidated(false); };
+  const handleClose = () => { setShow(false); };
 
   const onChangeForm = (event) => {
     if (event.target.value.trim() === '') {
@@ -81,9 +81,9 @@ const PokemonDetail = React.memo(() => {
   const checkValidation = () => {
     if (nickname.trim() === '') return false;
 
-    const data = poke.filter(p => p.nickname === nickname);
+    const data = poke.filter(p => p.nickname === nickname.toLowerCase());
 
-    if (data.length) {
+    if (!!data && data.length > 0) {
       setValidMsg("There are already pokemon with the same nickname.");
       setValidated(false);
       return false;
@@ -98,16 +98,13 @@ const PokemonDetail = React.memo(() => {
 
     if (!valid) return;
 
-    console.log(data);
-
     const dataInsert = {
       name: data.pokemon.name,
       image: data.pokemon.sprites.front_default,
-      nickname: nickname,
+      nickname: nickname.toLowerCase(),
     }
 
-    setPoke({ type: 'insert', data: dataInsert })
-    setShow(false); setNickname(''); setValidated(false); setValidMsg('');
+    setPoke({ type: 'insert', data: dataInsert }); setShow(false);
   }
 
   const generateProbility = () => {
@@ -116,11 +113,10 @@ const PokemonDetail = React.memo(() => {
     if (rdm < 0.5) {
       setAlert(true);
     } else {
+      setNickname(''); setValidMsg(''); setValidated(false);
       setShow(true);
     }
   }
-
-  if (!!data && !data.pokemon.id) history.replace('/not-found');
 
   return (
     <Layout>
@@ -151,8 +147,8 @@ const PokemonDetail = React.memo(() => {
                     height="20"
                     style={{ marginBottom: '2%' }}
                   />{' '}
-              Catch
-            </div>
+                  Catch
+                </div>
               }
             </div>
 
@@ -182,7 +178,7 @@ const PokemonDetail = React.memo(() => {
 
             <div css={titleStyles}>
               Abilities List:
-          </div>
+            </div>
 
             <div css={skillsContainer}>
               {(data.pokemon.abilities || []).map((val, index) => (
@@ -198,7 +194,7 @@ const PokemonDetail = React.memo(() => {
 
             <div css={titleStyles}>
               Skill List:
-          </div>
+            </div>
 
             <div css={skillsContainer}>
               {(data.pokemon.moves || []).map((val, index) => (
@@ -233,11 +229,14 @@ const PokemonDetail = React.memo(() => {
         keyboard={false}
         centered
       >
-        <Modal.Header closeButton>
+        {/* <Modal.Header closeButton>
           Please enter a nickname for your {data?.pokemon?.name || ''}
-        </Modal.Header>
+        </Modal.Header> */}
         <Modal.Body>
           <Form noValidate>
+            <Form.Label>
+              Please enter a nickname for your {data?.pokemon?.name || ''}
+            </Form.Label>
             <Form.Control type="text" placeholder={data?.pokemon?.name || ''}
               required value={nickname}
               onChange={onChangeForm}
@@ -247,13 +246,18 @@ const PokemonDetail = React.memo(() => {
               {validMsg}
             </Form.Control.Feedback>
           </Form>
+          <div className="float-right">
+            <Button variant="secondary" onClick={handleClose}>Close</Button>
+            {'     '}
+            <Button variant="success" onClick={onSubmit}>Confirm</Button>
+          </div>
         </Modal.Body>
-        <Modal.Footer>
+        {/* <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
           <Button variant="success" onClick={onSubmit}>Confirm</Button>
-        </Modal.Footer>
+        </Modal.Footer> */}
       </Modal>
 
     </Layout>
