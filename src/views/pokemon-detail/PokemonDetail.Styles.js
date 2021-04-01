@@ -72,8 +72,7 @@ export const cursorPointer = css`
 `;
 
 export const buttonCatchStyle = css`
-    float: right; 
-    background: green;
+    float: right;
     padding: 2px 10px;
     color: white; 
     cursor: pointer; 

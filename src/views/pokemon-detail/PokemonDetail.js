@@ -54,6 +54,7 @@ const PokemonDetail = React.memo(() => {
   const location = useLocation();
   const [show, setShow] = useState(false);
   const [alert, setAlert] = useState(false);
+  const [alertSuccess, setAlertSuccess] = useState(false);
   const { poke, setPoke } = useContext(PokemonContext);
   const [nickname, setNickname] = useState('');
   const [validMsg, setValidMsg] = useState('');
@@ -65,7 +66,7 @@ const PokemonDetail = React.memo(() => {
     variables: { name: location.pathname.split('/')[2] },
   });
 
-  const handleClose = () => { setShow(false); };
+  const handleClose = () => { setShow(false); setAlert(true); };
 
   const onChangeForm = (event) => {
     if (event.target.value.trim() === '') {
@@ -104,7 +105,9 @@ const PokemonDetail = React.memo(() => {
       nickname: nickname.toLowerCase(),
     }
 
-    setPoke({ type: 'insert', data: dataInsert }); setShow(false);
+    setPoke({ type: 'insert', data: dataInsert });
+    setShow(false);
+    setAlertSuccess(true);
   }
 
   const generateProbility = () => {
@@ -130,16 +133,33 @@ const PokemonDetail = React.memo(() => {
                   <Alert.Heading>Oh snap!</Alert.Heading>
                   <p>
                     {capitalizeFirstLetter(data.pokemon.name)} got away.
-                  Better luck next time!
+                    Better luck next time!
+                </p>
+                </Alert>
+              </div>
+            }
+
+            {alertSuccess &&
+              <div css={alertWarning}>
+                <Alert css={alertBody} variant="success" onClose={() => setAlertSuccess(false)} dismissible>
+                  <Alert.Heading>Yippe!</Alert.Heading>
+                  <p>
+                    {capitalizeFirstLetter(nickname)}, a {capitalizeFirstLetter(data.pokemon.name)}
+                    is stored at your computer.
                 </p>
                 </Alert>
               </div>
             }
 
             <div css={buttonsOnTopContainer}>
-              <Icon name='arrow alternate circle left outline' size='big' css={cursorPointer} onClick={() => history.goBack()} />
+              <Icon name='arrow alternate circle left outline' size='big' css={cursorPointer}
+                onClick={() => history.goBack()}
+                disabled={alert || alertSuccess}
+              />
               {!location.state?.mine &&
-                <div css={buttonCatchStyle} onClick={generateProbility}>
+                <div css={[buttonCatchStyle,
+                  { backgroundColor: alertSuccess || alert ? 'grey' : 'green' }]}
+                  onClick={generateProbility}>
                   <img
                     alt="image"
                     src="/pokeball.png"
@@ -246,9 +266,10 @@ const PokemonDetail = React.memo(() => {
               {validMsg}
             </Form.Control.Feedback>
           </Form>
+          <div css={divFiller} />
           <div className="float-right">
             <Button variant="secondary" onClick={handleClose}>Close</Button>
-            {'     '}
+            {' '}
             <Button variant="success" onClick={onSubmit}>Confirm</Button>
           </div>
         </Modal.Body>
