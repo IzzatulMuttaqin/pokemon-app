@@ -35,9 +35,9 @@ const MyPokemon = () => {
         <Layout>
             <div css={[container,
                 {
-                    width: `${viewingWidth}px`,
-                    marginLeft: `${marginLeft}px`,
-                    marginRight: `${marginLeft}px`,
+                    width: `${width < 300 ? viewingWidth : '90%'}`,
+                    marginLeft: `${width < 300 ? marginLeft : '5%'}`,
+                    marginRight: `${width < 300 ? marginLeft : '5%'}`,
                 }]}>
                 <div css={cardContainer}>
                     {
