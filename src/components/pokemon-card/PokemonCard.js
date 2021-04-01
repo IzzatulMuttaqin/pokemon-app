@@ -20,7 +20,17 @@ const PokemonCard = (props) => {
                 </div>
                 <div
                     onClick={props.pushDetail}
-                    style={{ textAlign: 'center', fontWeight: 'bold', cursor: 'pointer' }}
+                    style={{
+                        textAlign: 'center',
+                        fontWeight: 'bold',
+                        cursor: 'pointer',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        width: '90%',
+                        marginLeft: '5%',
+                        marginRight: '5%',
+                        whiteSpace: 'nowrap',
+                    }}
                 >
                     {props.name}
                 </div>

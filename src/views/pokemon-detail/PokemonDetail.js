@@ -103,7 +103,7 @@ const PokemonDetail = React.memo(() => {
     const dataInsert = {
       name: data.pokemon.name,
       image: data.pokemon.sprites.front_default,
-      nickname: nickname.toLowerCase(),
+      nickname: nickname.trim().toLowerCase(),
     }
 
     setPoke({ type: 'insert', data: dataInsert });
@@ -159,7 +159,8 @@ const PokemonDetail = React.memo(() => {
                   onClose={() => setAlertSuccess(false)} dismissible>
                   <Alert.Heading>Yippe!</Alert.Heading>
                   <p>
-                    {capitalizeFirstLetter(nickname)}, a {`${capitalizeFirstLetter(data.pokemon.name)} `}
+                    <span style={{ wordBreak: 'break-all' }}>{capitalizeFirstLetter(nickname)}</span>, a
+                    {` ${capitalizeFirstLetter(data.pokemon.name)} `}
                     is stored at your computer.
                 </p>
                 </Alert>

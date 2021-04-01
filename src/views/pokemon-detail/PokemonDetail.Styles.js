@@ -41,6 +41,9 @@ export const pokemonName = css`
     margin: auto;
     width: max(200px, 30%);
     text-align: center;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
 `;
 
 export const alertWarning = css`
